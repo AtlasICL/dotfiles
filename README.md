@@ -7,9 +7,12 @@
 #### - tasks.json changes --
 
 Added certain arguments for debugging purposes:
--g enables debug flags (true by defaul I believe)
--Wall enables all compiler warnings
--pedantic warns of incompatibility with different compilers
+-g enables debug flags (true by defaul I believe)  
+
+-Wall enables all compiler warnings  
+
+-pedantic warns of incompatibility with different compilers  
+
 
 #### -- settings.json changes --
 
