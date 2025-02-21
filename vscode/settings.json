@@ -1,8 +1,0 @@
-{
-    "files.exclude": {
-      "*.exe": true,
-      "*/*.exe": true,
-      "*.git": true,
-      "*/*.git": true
-      }
-  }
