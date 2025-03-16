@@ -1,1 +1,1 @@
-Config files for Linux
+Config files for WSL
