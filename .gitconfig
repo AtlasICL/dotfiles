@@ -1,0 +1,8 @@
+[user]
+	email = ea616@exeter.ac.uk
+	name = Emre Acarsoy
+[core]
+	editor = code --wait
+[alias]
+    st = status -s
+    pr = pull --rebase
