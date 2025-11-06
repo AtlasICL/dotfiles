@@ -1,5 +1,6 @@
 # Make ls list in columns, and append marker for type of file.
-alias l='ls -CF'
+alias lsa='ls -aCF'
+
 
 # Confirm before deletion
 alias rm='rm -i'
