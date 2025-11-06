@@ -4,6 +4,16 @@ DOTFILES_REPO="git@github.com:AtlasICL/dotfiles"
 
 info()  { printf "\n[INFO] %s\n" "$*"; }
 
+if ! command -v apt >/dev/null 2>&1; then
+  error "This script is for Debian/Ubuntu (apt-based) systems."
+  exit 1
+fi
+
+if ! sudo -v 2>/dev/null; then
+  error "This script requires sudo privileges."
+  exit 1
+fi
+
 info "Updating package lists..."
 sudo apt update 
 
