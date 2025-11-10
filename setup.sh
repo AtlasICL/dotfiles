@@ -37,6 +37,7 @@ info "Installing dev tools..."
 sudo apt-get install -y neovim > /dev/null
 sudo apt-get install -y fd-find > /dev/null
 sudo apt-get install -y ripgrep > /dev/null
+sudo apt-get install -y fzf > /dev/null
 
 #info "Getting dotfiles..."
 #git clone "$DOTFILES_REPO" ~
