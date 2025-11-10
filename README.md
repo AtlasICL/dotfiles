@@ -3,7 +3,7 @@
 In your home directory, clone the repo
 ```
 cd ~
-git clone git@github.com:AtlasICL/dotfiles
+git clone https://github.com/AtlasICL/dotfiles
 ```
 
 Then run the setup script
