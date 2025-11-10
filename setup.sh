@@ -48,6 +48,7 @@ cp ~/dotfiles/.nanorc ~
 cp ~/dotfiles/.gitconfig ~
 
 info "Linking neovim config files..."
+mkdir -p ~/.config  # Create .config directory if necessary
 cp ~/dotfiles/.config ~
 
 source .bashrc
