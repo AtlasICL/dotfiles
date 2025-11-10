@@ -23,10 +23,8 @@ if ! sudo -v 2>/dev/null; then
   exit 1
 fi
 
-info "Updating package lists..."
+info "Updating packages..."
 sudo apt-get update > /dev/null 
-
-info "Upgrading packages..."
 sudo apt-get upgrade -y > /dev/null
 
 info "Installing git..."
@@ -34,6 +32,11 @@ sudo apt-get install -y git > /dev/null
 
 info "Installing compilers..."
 sudo apt-get install -y build-essential > /dev/null
+
+info "Installing dev tools..."
+sudo apt-get install -y neovim > /dev/null
+sudo apt-get install -y fd-find > /dev/null
+sudo apt-get install -y ripgrep > /dev/null
 
 #info "Getting dotfiles..."
 #git clone "$DOTFILES_REPO" ~
@@ -43,6 +46,9 @@ cp ~/dotfiles/.bashrc ~
 cp ~/dotfiles/.bash_aliases ~
 cp ~/dotfiles/.nanorc ~
 cp ~/dotfiles/.gitconfig ~
+
+info "Linking neovim config files..."
+cp ~/dotfiles/.config ~
 
 source .bashrc
 
