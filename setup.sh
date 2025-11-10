@@ -49,7 +49,7 @@ cp ~/dotfiles/.gitconfig ~
 
 info "Linking neovim config files..."
 mkdir -p ~/.config  # Create .config directory if necessary
-cp ~/dotfiles/.config ~
+cp ~/dotfiles/nvim ~/.config/nvim
 
 source .bashrc
 
