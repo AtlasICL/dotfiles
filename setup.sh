@@ -63,6 +63,14 @@ sudo apt-get install -y fd-find > /dev/null
 sudo apt-get install -y ripgrep > /dev/null
 sudo apt-get install -y fzf > /dev/null
 
+# Neovim expects fd, so we will link fd to fd-find.
+mkdir -p ~/.local/bin # Create the directory if it doesn't exist.
+if command -v fdfind >/dev/null 2>&1; then
+  ln -sfn "$(command -v fdfind)" "$HOME/.local/bin/fd"
+else
+  warn "fdfind not found, skipping fd symlink"
+fi
+
 info "Backing up current configs..."
 backup "${HOME}/.bashrc"
 backup "${HOME}/.bash_aliases"
@@ -79,7 +87,7 @@ info "Backing up neovim config..."
 backup "${HOME}/.config/nvim"
 
 info "Linking neovim config files..."
-mkdir -p "${HOME}/.config"  # Create .config directory if necessary
+mkdir -p "${HOME}/.config"  # Create .config directory if necessary.
 cp -r "${HOME}/dotfiles/nvim" "${HOME}/.config/nvim"
 
 success "Done. You should restart your shell."
