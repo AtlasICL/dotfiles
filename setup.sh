@@ -16,9 +16,9 @@ success() { clear_progress; printf "\n${SUCCESS_COLOR}[OK  ] %s${RESET}\n" "$*";
 warn() { clear_progress; printf "\n${ERROR_COLOR}[WARN] %s${RESET}\n" "$*"; draw_progress; }
 error() { clear_progress; printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
 
-# -------- PROGRESS BAR --------
+# ------------ PROGRESS BAR HELPERS ------------
 # Progress bar variables
-TOTAL_STEPS=0
+TOTAL_STEPS=22
 CURRENT_STEP=0
 PROGRESS_DRAWN=0
 
@@ -54,6 +54,8 @@ update_progress() {
   CURRENT_STEP=$((CURRENT_STEP + 1))
   draw_progress
 }
+# -------- END PROGRESS BAR HELPERS --------
+
 
 BACKUP_DIR="${HOME}/atlas-setup-backups"
 
@@ -86,8 +88,16 @@ if [ ! -d "${HOME}/dotfiles" ]; then
   exit 1
 fi
 
-# Set total number of steps for progress bar
-TOTAL_STEPS=21
+info "Checking for SSH key..."
+if [ ! -f "${HOME}/.ssh/id_ed25519" ] && [ ! -f "${HOME}/.ssh/id_rsa" ]; then
+  bakinfo "No SSH key found. Generating..."
+  mkdir -p "${HOME}/.ssh"
+  chmod 700 "${HOME}/.ssh"
+  ssh-keygen -t ed25519 -f "${HOME}/.ssh/id_ed25519" -N "" -C "$(whoami)@$(hostname)"
+else
+  bakinfo "SSH key already exists, skipping."
+fi
+update_progress
 
 info "Starting setup..."
 update_progress
