@@ -16,12 +16,16 @@ success() { printf "\n${SUCCESS_COLOR}[OK  ] %s${RESET}\n" "$*"; }
 warn() { printf "\n${ERROR_COLOR}[WARN] %s${RESET}\n" "$*"; }
 error() { printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
 
+BACKUP_DIR="${HOME}/atlas-setup-backups"
+
 # Function to create time-stamped backups of the files this script might overwrite.
 backup() {
   local target="$1"
+  mkdir -p "$BACKUP_DIR"
   if [ -e "$target" ]; then
-    local ts="$(date +%Y%m%d-%H%M%S)"
-    local backup_path="${target}.bak.${ts}"
+    local timestamp="$(date +%Y%m%d-%H%M%S)" # for time-stamped backups
+    local filename="$(basename "$target")"
+    local backup_path="${BACKUP_DIR}/${filename}.bak.${timestamp}"
     bakinfo "Backing up $target -> $backup_path"
     cp -a -- "$target" "$backup_path"
     bakinfo "Backup successful"
