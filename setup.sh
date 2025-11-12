@@ -93,7 +93,7 @@ if [ ! -f "${HOME}/.ssh/id_ed25519" ] && [ ! -f "${HOME}/.ssh/id_rsa" ]; then
   bakinfo "No SSH key found. Generating..."
   mkdir -p "${HOME}/.ssh"
   chmod 700 "${HOME}/.ssh"
-  ssh-keygen -t ed25519 -f "${HOME}/.ssh/id_ed25519" -N "" -C "$(whoami)@$(hostname)"
+  ssh-keygen -t ed25519 -f "${HOME}/.ssh/id_ed25519" -N "" -C "$(whoami)@$(hostname)" > /dev/null 2>&1
 else
   bakinfo "SSH key already exists, skipping."
 fi
