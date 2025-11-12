@@ -11,7 +11,7 @@ RESET="\033[0m"
 
 # Define console log functions.
 info()  { printf "\n${INFO_COLOR}[INFO] %s${RESET}\n" "$*"; }
-bakinfo() { printf "\n${BAKINFO_COLOR}[INFO] %s${RESET}" "$*"; }
+bakinfo() { printf "${BAKINFO_COLOR}[INFO] %s${RESET}\n" "$*"; }
 success() { printf "\n${SUCCESS_COLOR}[OK  ] %s${RESET}\n" "$*"; }
 warn() { printf "\n${ERROR_COLOR}[WARN] %s${RESET}\n" "$*"; }
 error() { printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
