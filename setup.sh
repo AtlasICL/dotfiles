@@ -87,7 +87,7 @@ if [ ! -d "${HOME}/dotfiles" ]; then
 fi
 
 # Set total number of steps for progress bar
-TOTAL_STEPS=17
+TOTAL_STEPS=21
 
 info "Starting setup..."
 update_progress
@@ -107,8 +107,12 @@ info "Installing compilers..."
 sudo apt-get install -y build-essential > /dev/null
 update_progress
 
+info "Installing htop..."
+sudo apt-get install -y libncursesw5-dev autotools-dev autoconf automake build-essential > /dev/null
+update_progress
+
 info "Installing dev tools..."
-sudo apt-get install -y neovim > /dev/null
+sudo apt-get install -y tmux > /dev/null
 update_progress
 
 sudo apt-get install -y fd-find > /dev/null
@@ -118,6 +122,12 @@ sudo apt-get install -y ripgrep > /dev/null
 update_progress
 
 sudo apt-get install -y fzf > /dev/null
+update_progress
+
+sudo apt-get install -y tree > /dev/null
+update_progress
+
+sudo apt-get install -y neovim > /dev/null
 update_progress
 
 # Neovim expects fd, so we will link fd to fd-find.
