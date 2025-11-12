@@ -10,11 +10,50 @@ BAKINFO_COLOR="\033[94m"  # blue
 RESET="\033[0m"
 
 # Define console log functions.
-info()  { printf "\n${INFO_COLOR}[INFO] %s${RESET}\n" "$*"; }
-bakinfo() { printf "${BAKINFO_COLOR}[INFO] %s${RESET}\n" "$*"; }
-success() { printf "\n${SUCCESS_COLOR}[OK  ] %s${RESET}\n" "$*"; }
-warn() { printf "\n${ERROR_COLOR}[WARN] %s${RESET}\n" "$*"; }
-error() { printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
+info()  { clear_progress; printf "\n${INFO_COLOR}[INFO] %s${RESET}\n" "$*"; draw_progress; }
+bakinfo() { clear_progress; printf "${BAKINFO_COLOR}[INFO] %s${RESET}\n" "$*"; draw_progress; }
+success() { clear_progress; printf "\n${SUCCESS_COLOR}[OK  ] %s${RESET}\n" "$*"; }
+warn() { clear_progress; printf "\n${ERROR_COLOR}[WARN] %s${RESET}\n" "$*"; draw_progress; }
+error() { clear_progress; printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
+
+# -------- PROGRESS BAR --------
+# Progress bar variables
+TOTAL_STEPS=0
+CURRENT_STEP=0
+PROGRESS_DRAWN=0
+
+# Save cursor position and draw progress bar
+draw_progress() {
+  local percent=$((CURRENT_STEP * 100 / TOTAL_STEPS))
+  local filled=$((percent / 2))
+  local empty=$((50 - filled))
+  
+  # Save cursor, move to bottom, draw progress, restore cursor
+  tput sc  # Save cursor position
+  tput cup $(tput lines) 0  # Move to last line
+  printf "${INFO_COLOR}Progress: ["
+  printf "%${filled}s" | tr ' ' '='
+  printf "%${empty}s" | tr ' ' '-'
+  printf "] %3d%%${RESET}" "$percent"
+  tput el  # Clear to end of line
+  tput rc  # Restore cursor position
+  PROGRESS_DRAWN=1
+}
+
+# Clear the progress bar line
+clear_progress() {
+  if [ "$PROGRESS_DRAWN" -eq 1 ]; then
+    tput sc  # Save cursor
+    tput cup $(tput lines) 0  # Move to last line
+    tput el  # Clear line
+    tput rc  # Restore cursor
+  fi
+}
+
+update_progress() {
+  CURRENT_STEP=$((CURRENT_STEP + 1))
+  draw_progress
+}
 
 BACKUP_DIR="${HOME}/atlas-setup-backups"
 
@@ -47,21 +86,39 @@ if [ ! -d "${HOME}/dotfiles" ]; then
   exit 1
 fi
 
+# Set total number of steps for progress bar
+TOTAL_STEPS=17
+
+info "Starting setup..."
+update_progress
+
 info "Updating packages..."
 sudo apt-get update > /dev/null 
+update_progress
+
 sudo apt-get upgrade -y > /dev/null
+update_progress
 
 info "Installing git..."
 sudo apt-get install -y git > /dev/null 
+update_progress
 
 info "Installing compilers..."
 sudo apt-get install -y build-essential > /dev/null
+update_progress
 
 info "Installing dev tools..."
 sudo apt-get install -y neovim > /dev/null
+update_progress
+
 sudo apt-get install -y fd-find > /dev/null
+update_progress
+
 sudo apt-get install -y ripgrep > /dev/null
+update_progress
+
 sudo apt-get install -y fzf > /dev/null
+update_progress
 
 # Neovim expects fd, so we will link fd to fd-find.
 mkdir -p ~/.local/bin # Create the directory if it doesn't exist.
@@ -70,24 +127,36 @@ if command -v fdfind >/dev/null 2>&1; then
 else
   warn "fdfind not found, skipping fd symlink"
 fi
+update_progress
 
 info "Backing up current configs..."
 backup "${HOME}/.bashrc"
 backup "${HOME}/.bash_aliases"
 backup "${HOME}/.nanorc"
 backup "${HOME}/.gitconfig"
+update_progress
 
 info "Linking dotfiles into home directory..."
 cp "${HOME}/dotfiles/.bashrc" "${HOME}"
+update_progress
+
 cp "${HOME}/dotfiles/.bash_aliases" "${HOME}"
+update_progress
+
 cp "${HOME}/dotfiles/.nanorc" "${HOME}"
+update_progress
+
 cp "${HOME}/dotfiles/.gitconfig" "${HOME}"
+update_progress
 
 info "Backing up neovim config..."
 backup "${HOME}/.config/nvim"
+update_progress
 
 info "Linking neovim config files..."
 mkdir -p "${HOME}/.config"  # Create .config directory if necessary.
 cp -r "${HOME}/dotfiles/nvim" "${HOME}/.config/nvim"
+update_progress
 
-success "Done. You should restart your shell."
+clear_progress
+success "Done. You should restart your shell. o7"
