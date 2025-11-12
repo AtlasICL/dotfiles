@@ -10,11 +10,11 @@ BAKINFO_COLOR="\033[94m"  # blue
 RESET="\033[0m"
 
 # Define console log functions.
-info()  { printf "\n${INFO_COLOR}[INFO] %s${RESET}\n" "$*"; }
-bakinfo() { printf "\n${BAKINFO_COLOR}[INFO] %s${RESET}\n" "$*"; }
-success() { printf "\n${SUCCESS_COLOR}[OK  ] %s${RESET}\n" "$*"; }
-warn() { printf "\n${ERROR_COLOR}[WARN] %s${RESET}\n" "$*"; }
-error() { printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
+info()  { printf "\n${INFO_COLOR}[INFO] %s${RESET}" "$*"; }
+bakinfo() { printf "\n${BAKINFO_COLOR}[INFO] %s${RESET}" "$*"; }
+success() { printf "\n${SUCCESS_COLOR}[OK  ] %s${RESET}" "$*"; }
+warn() { printf "\n${ERROR_COLOR}[WARN] %s${RESET}" "$*"; }
+error() { printf "\n${ERROR_COLOR}[ERR ] %s${RESET}" "$*"; }
 
 # Function to create time-stamped backups of the files this script might overwrite.
 backup() {
