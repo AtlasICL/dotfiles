@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
-set -euo pipefail # Exit if failure.
-
-#DOTFILES_REPO="git@github.com:AtlasICL/dotfiles"
+set -euo pipefail
 
 # Set up colors for printing.
-INFO_COLOR="\033[94m"     # blue
+INFO_COLOR="\033[92m"     # green
 SUCCESS_COLOR="\033[35m"  # purple
 ERROR_COLOR="\033[31m"    # red
 RESET="\033[0m"
@@ -13,9 +11,10 @@ RESET="\033[0m"
 # Define console log functions.
 info()  { printf "\n${INFO_COLOR}[INFO] %s${RESET}\n" "$*"; }
 success() { printf "\n${SUCCESS_COLOR}[OK  ] %s${RESET}\n" "$*"; }
+warn() { printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
 error() { printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
 
-if ! command -v apt >/dev/null 2>&1; then
+if ! command -v apt-get >/dev/null 2>&1; then
   error "This script is for Debian/Ubuntu (apt-based) systems."
   exit 1
 fi
@@ -41,9 +40,6 @@ sudo apt-get install -y fd-find > /dev/null
 sudo apt-get install -y ripgrep > /dev/null
 sudo apt-get install -y fzf > /dev/null
 
-#info "Getting dotfiles..."
-#git clone "$DOTFILES_REPO" ~
-
 info "Linking dotfiles into home directory..."
 cp ~/dotfiles/.bashrc ~
 cp ~/dotfiles/.bash_aliases ~
@@ -53,7 +49,5 @@ cp ~/dotfiles/.gitconfig ~
 info "Linking neovim config files..."
 mkdir -p ~/.config  # Create .config directory if necessary
 cp -r ~/dotfiles/nvim ~/.config/nvim
-
-source .bashrc
 
 success "Done. You should restart your shell."
