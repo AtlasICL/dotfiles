@@ -24,6 +24,16 @@ if ! sudo -v 2>/dev/null; then
   exit 1
 fi
 
+# DOTFILES_REPO="https://github.com/AtlasICL/dotfiles"
+
+# if [ ! -d ~/dotfiles/.git ]; then
+#   info "Cloning dotfiles..."
+#   git clone "$DOTFILES_REPO" ~/dotfiles
+# else
+#   info "dotfiles directory already exists at: ~/dotfiles. Pulling updates from GitHub..."
+#   git -C "~/dotfiles" pull --ff-only || warn "fast-forwards failed: skipping auto-pull."
+# fi
+
 info "Updating packages..."
 sudo apt-get update > /dev/null 
 sudo apt-get upgrade -y > /dev/null
