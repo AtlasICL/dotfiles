@@ -88,6 +88,9 @@ if [ ! -d "${HOME}/dotfiles" ]; then
   exit 1
 fi
 
+info "Starting setup..."
+update_progress
+
 info "Checking for SSH key..."
 if [ ! -f "${HOME}/.ssh/id_ed25519" ] && [ ! -f "${HOME}/.ssh/id_rsa" ]; then
   bakinfo "No SSH key found. Generating..."
@@ -97,9 +100,6 @@ if [ ! -f "${HOME}/.ssh/id_ed25519" ] && [ ! -f "${HOME}/.ssh/id_rsa" ]; then
 else
   bakinfo "SSH key already exists, skipping."
 fi
-update_progress
-
-info "Starting setup..."
 update_progress
 
 info "Updating packages..."
