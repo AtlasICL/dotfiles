@@ -9,6 +9,11 @@ chmod +x ./dotfiles/setup.sh
 ./dotfiles/setup.sh
 ```
 
+# Backups
+
+- The script will create time-stamped backups for any files it may overwrite.  
+- The backups can be found at `~/atlas-setup-backups/`
+
 # Notes
 
 - You should modify the `.gitconfig` in your home folder to with your name and email.
