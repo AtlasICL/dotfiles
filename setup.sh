@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -euo pipefail # Exit if failure.
 
 #DOTFILES_REPO="git@github.com:AtlasICL/dotfiles"
 
@@ -54,4 +56,4 @@ cp -r ~/dotfiles/nvim ~/.config/nvim
 
 source .bashrc
 
-success "Done."
+success "Done. You should restart your shell."
