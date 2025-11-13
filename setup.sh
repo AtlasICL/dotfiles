@@ -122,7 +122,8 @@ sudo apt-get install -y build-essential > /dev/null
 update_progress
 
 info "Installing htop..."
-sudo apt-get install -y libncursesw5-dev autotools-dev autoconf automake build-essential > /dev/null
+sudo apt-get install -y libncursesw5-dev autotools-dev autoconf automake > /dev/null
+sudo apt-get install -y htop > /dev/null
 update_progress
 
 info "Installing dev tools..."
