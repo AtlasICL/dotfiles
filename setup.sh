@@ -197,6 +197,7 @@ backup "${HOME}/.bashrc"
 backup "${HOME}/.bash_aliases"
 backup "${HOME}/.nanorc"
 backup "${HOME}/.gitconfig"
+backup "${HOME}/.config/fastfetch"
 update_progress
 
 info "Linking dotfiles into home directory..."
@@ -219,6 +220,11 @@ update_progress
 info "Linking neovim config files..."
 mkdir -p "${HOME}/.config"  # Create .config directory if necessary.
 cp -r "${HOME}/dotfiles/nvim" "${HOME}/.config/nvim"
+update_progress
+
+info "Linking fastfetch config..."
+mkdir -p "${HOME}/.config" 
+cp -r "${HOME}/dotfiles/fastfetch" "${HOME}/.config/fastfetch"
 update_progress
 
 clear_progress
