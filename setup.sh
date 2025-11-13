@@ -168,7 +168,7 @@ update_progress
 
 info "Installing fastfetch..."
 if ! command -v fastfetch >/dev/null 2>&1; then
-  bakinfo "Checking compatibility"
+  bakinfo "Checking compatibility..."
   ARCH="$(dpkg --print-architecture)"
   if [ "$ARCH" = "amd64" ]; then
     bakinfo "amd64 ISA detected, installing fastfetch..."
