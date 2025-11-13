@@ -213,6 +213,9 @@ update_progress
 cp "${HOME}/dotfiles/.gitconfig" "${HOME}"
 update_progress
 
+cp "${HOME}/dotfiles/.inputrc" "${HOME}"
+update_progress
+
 info "Backing up neovim config..."
 backup "${HOME}/.config/nvim"
 update_progress
