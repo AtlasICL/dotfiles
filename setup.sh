@@ -132,22 +132,27 @@ sudo apt-get install -y libncursesw5-dev autotools-dev autoconf automake > /dev/
 sudo apt-get install -y htop > /dev/null
 update_progress
 
-info "Installing dev tools..."
+info "Installing tmux..."
 sudo apt-get install -y tmux > /dev/null
 update_progress
 
+info "Installing fd..."
 sudo apt-get install -y fd-find > /dev/null
 update_progress
 
+info "Installing ripgrep..."
 sudo apt-get install -y ripgrep > /dev/null
 update_progress
 
+info "Installing fzf..."
 sudo apt-get install -y fzf > /dev/null
 update_progress
 
+info "Installing tree..."
 sudo apt-get install -y tree > /dev/null
 update_progress
 
+info "Installing neovim..."
 sudo apt-get install -y neovim > /dev/null
 update_progress
 
