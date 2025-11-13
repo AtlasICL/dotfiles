@@ -198,6 +198,7 @@ backup "${HOME}/.bash_aliases"
 backup "${HOME}/.nanorc"
 backup "${HOME}/.gitconfig"
 backup "${HOME}/.config/fastfetch"
+backup "${HOME}/.inputrc"
 update_progress
 
 info "Linking dotfiles into home directory..."
