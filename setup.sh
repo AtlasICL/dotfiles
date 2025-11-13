@@ -172,7 +172,7 @@ if ! command -v fastfetch >/dev/null 2>&1; then
   ARCH="$(dpkg --print-architecture)"
   if [ "$ARCH" = "amd64" ]; then
     bakinfo "amd64 ISA detected, installing fastfetch..."
-    wget -O /tmp/fastfetch.deb https://github.com/fastfetch-cli/fastfetch/releases/download/2.55.0/fastfetch-linux-amd64.deb
+    wget -O /tmp/fastfetch.deb https://github.com/fastfetch-cli/fastfetch/releases/download/2.55.0/fastfetch-linux-amd64.deb > /dev/null 2>&1
     sudo apt-get install -y /tmp/fastfetch.deb > /dev/null
     rm /tmp/fastfetch.deb # Explicitly delete after installation
   else 
