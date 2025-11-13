@@ -6,3 +6,6 @@ alias rm='rm -i'
 
 # Run updates and cleanup
 alias update='sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove --purge -y'
+
+# Print ssh public key
+alias give-key='cat ${HOME}/.ssh/id_ed25519.pub'
