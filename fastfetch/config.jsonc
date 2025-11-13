@@ -12,12 +12,9 @@
         "os",
         "kernel",
         "shell",
-        "terminal",
-        "terminalfont",
         "cpu",
         "gpu",
         "memory",
-        "disk",
         "battery",
         "poweradapter",
         "break"
