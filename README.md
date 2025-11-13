@@ -3,10 +3,8 @@
 In your home directory, clone the repo, then run the setup script.
 
 ```
-cd ~
-git clone https://github.com/AtlasICL/dotfiles
-chmod +x ./dotfiles/setup.sh
-./dotfiles/setup.sh
+git clone https://github.com/AtlasICL/dotfiles ~/dotfiles
+bash ./dotfiles/setup.sh
 ```
 
 # Backups
