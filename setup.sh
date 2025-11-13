@@ -224,7 +224,7 @@ update_progress
 
 info "Linking fastfetch config..."
 mkdir -p "${HOME}/.config" 
-cp -r "${HOME}/dotfiles/fastfetch" "${HOME}/.config/fastfetch"
+cp -r "${HOME}/dotfiles/fastfetch" "${HOME}/.config"
 update_progress
 
 clear_progress
