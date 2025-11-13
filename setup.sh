@@ -218,7 +218,7 @@ update_progress
 cp "${HOME}/dotfiles/.inputrc" "${HOME}"
 update_progress
 
-cp "${HOME}/.tmux.conf" "${HOME}"
+cp "${HOME}/dotfiles/.tmux.conf" "${HOME}"
 update_progress
 
 info "Backing up neovim config..."
