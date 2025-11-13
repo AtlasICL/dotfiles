@@ -137,6 +137,11 @@ sudo apt-get install -y python3 > /dev/null
 sudo apt-get install -y python3-pip > /dev/null
 update_progress
 
+info "Installing java and maven..."
+sudo apt-get install -y default-jdk > /dev/null
+sudo apt-get install -y maven > /dev/null
+update_progress
+
 info "Installing htop..."
 sudo apt-get install -y libncursesw5-dev autotools-dev autoconf automake > /dev/null
 sudo apt-get install -y htop > /dev/null
