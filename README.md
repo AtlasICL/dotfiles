@@ -11,7 +11,7 @@ chmod +x ./dotfiles/setup.sh
 
 # Backups
 
-- The script will create time-stamped backups for any files it may overwrite.  
+- The script will create time-stamped backups for any files it overwrites.  
 - The backups can be found at `~/atlas-setup-backups/`
 
 # Notes
