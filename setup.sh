@@ -32,8 +32,8 @@ draw_progress() {
   tput sc  # Save cursor position
   tput cup $(tput lines) 0  # Move to last line
   printf "${INFO_COLOR}Progress: ["
-  printf "%${filled}s" | tr ' ' '='
-  printf "%${empty}s" | tr ' ' '-'
+  printf "%${filled}s" | tr ' ' '#'
+  printf "%${empty}s" | tr ' ' '.'
   printf "] %3d%%${RESET}" "$percent"
   tput el  # Clear to end of line
   tput rc  # Restore cursor position
@@ -117,8 +117,13 @@ info "Installing git..."
 sudo apt-get install -y git > /dev/null 
 update_progress
 
-info "Installing compilers..."
+info "Installing C/C++ compilers..."
 sudo apt-get install -y build-essential > /dev/null
+update_progress
+
+info "Installing Python and pip..."
+sudo apt-get install -y python3 > /dev/null
+sudo apt-get install -y python3-pip > /dev/null
 update_progress
 
 info "Installing htop..."
