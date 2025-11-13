@@ -19,7 +19,7 @@ error() { clear_progress; printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
 
 # ------------ PROGRESS BAR HELPERS ------------
 # Progress bar variables
-TOTAL_STEPS=23
+TOTAL_STEPS=26
 CURRENT_STEP=0
 PROGRESS_DRAWN=0
 
