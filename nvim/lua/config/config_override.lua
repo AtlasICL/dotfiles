@@ -1,1 +1,0 @@
-vim.wo.relativenumber = true -- relative line numbers 
