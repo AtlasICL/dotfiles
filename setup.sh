@@ -19,7 +19,7 @@ error() { clear_progress; printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
 
 # ------------ PROGRESS BAR HELPERS ------------
 # Progress bar variables
-TOTAL_STEPS=24
+TOTAL_STEPS=26
 CURRENT_STEP=0
 PROGRESS_DRAWN=0
 
@@ -199,6 +199,7 @@ backup "${HOME}/.nanorc"
 backup "${HOME}/.gitconfig"
 backup "${HOME}/.config/fastfetch"
 backup "${HOME}/.inputrc"
+backup "${HOME}/.tmux.conf"
 update_progress
 
 info "Linking dotfiles into home directory..."
@@ -215,6 +216,9 @@ cp "${HOME}/dotfiles/.gitconfig" "${HOME}"
 update_progress
 
 cp "${HOME}/dotfiles/.inputrc" "${HOME}"
+update_progress
+
+cp "${HOME}/.tmux.conf" "${HOME}"
 update_progress
 
 info "Backing up neovim config..."
