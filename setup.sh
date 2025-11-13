@@ -219,7 +219,7 @@ update_progress
 
 info "Linking neovim config files..."
 mkdir -p "${HOME}/.config"  # Create .config directory if necessary.
-cp -r "${HOME}/dotfiles/nvim" "${HOME}/.config/nvim"
+cp -r "${HOME}/dotfiles/nvim" "${HOME}/.config"
 update_progress
 
 info "Linking fastfetch config..."
