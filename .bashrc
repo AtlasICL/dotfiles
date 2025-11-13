@@ -115,5 +115,9 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
     ssh-add ~/.ssh/id_ed25519_second > /dev/null 2>&1
 fi
 
+# Run neofetch on startup (except if running through ssh).
+if [ -z "$SSH_CONNECTION" ] && command -v neofetch >/dev/null 2>&1; then
+    neofetch
+fi
 
 export PATH="$HOME/.local/bin:$PATH"

@@ -18,7 +18,7 @@ error() { clear_progress; printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
 
 # ------------ PROGRESS BAR HELPERS ------------
 # Progress bar variables
-TOTAL_STEPS=23
+TOTAL_STEPS=24
 CURRENT_STEP=0
 PROGRESS_DRAWN=0
 
@@ -143,6 +143,9 @@ sudo apt-get install -y tree > /dev/null
 update_progress
 
 sudo apt-get install -y neovim > /dev/null
+update_progress
+
+sudo apt-get install -y neofetch > /dev/null
 update_progress
 
 # Neovim expects fd, so we will link fd to fd-find.
