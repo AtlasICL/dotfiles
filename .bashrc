@@ -107,12 +107,4 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Start ssh-agent if not already running and add the key
-if [ -z "$SSH_AUTH_SOCK" ]; then
-    SSH_AGENT_OUTPUT=$(ssh-agent -s)
-    eval "$SSH_AGENT_OUTPUT" > /dev/null 2>&1
-    ssh-add ~/.ssh/id_ed25519 > /dev/null 2>&1
-    ssh-add ~/.ssh/id_ed25519_second > /dev/null 2>&1
-fi
-
 export PATH="$HOME/.local/bin:$PATH"
