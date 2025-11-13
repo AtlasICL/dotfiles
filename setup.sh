@@ -114,6 +114,16 @@ update_progress
 sudo apt-get upgrade -y > /dev/null
 update_progress
 
+# Ensure wget is installed (needed for fastfetch install)
+info "Checking wget installed..."
+if ! command -v wget >/dev/null 2>&1; then
+  bakinfo "wget not found, installing wget..."
+  sudo apt-get install -y wget > /dev/null
+else 
+  bakinfo "wget already installed, skipping..."
+fi
+update_progress
+
 info "Installing git..."
 sudo apt-get install -y git > /dev/null 
 update_progress
@@ -154,6 +164,23 @@ update_progress
 
 info "Installing neovim..."
 sudo apt-get install -y neovim > /dev/null
+update_progress
+
+info "Installing fastfetch..."
+if ! command -v fastfetch >/dev/null 2>&1; then
+  bakinfo "Checking compatibility"
+  ARCH="$(dpkg --print-architecture)"
+  if [ "$ARCH" = "amd64" ]; then
+    bakinfo "amd64 ISA detected, installing fastfetch..."
+    wget -O /tmp/fastfetch.deb https://github.com/fastfetch-cli/fastfetch/releases/download/2.55.0/fastfetch-linux-amd64.deb
+    sudo apt-get install -y /tmp/fastfetch.deb > /dev/null
+    rm /tmp/fastfetch.deb # Explicitly delete after installation
+  else 
+    warn "System is not amd64 - skipping fastfetch installation"
+  fi
+else
+  bakinfo "fastfetch already installed, skipping..."
+fi
 update_progress
 
 # Neovim expects fd, so we will link fd to fd-find.
