@@ -19,7 +19,7 @@ error() { clear_progress; printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
 
 # ------------ PROGRESS BAR HELPERS ------------
 # Progress bar variables
-TOTAL_STEPS=26
+TOTAL_STEPS=29
 CURRENT_STEP=0
 PROGRESS_DRAWN=0
 
@@ -143,8 +143,8 @@ sudo apt-get install -y maven > /dev/null
 update_progress
 
 info "Installing prolog..."
-sudo apt-add-repository ppa:swi-prolog/stable
 sudo apt-get install -y swi-prolog
+update_progress
 
 info "Installing htop..."
 sudo apt-get install -y libncursesw5-dev autotools-dev autoconf automake > /dev/null
@@ -214,6 +214,29 @@ update_progress
 info "Linking dotfiles into home directory..."
 cp "${HOME}/dotfiles/.bashrc" "${HOME}"
 update_progress
+
+info "Setting JAVA_HOME in .bashrc..."
+if command -v java >/dev/null 2>&1; then
+  JAVA_BIN="$(readlink -f "$(command -v java)")"
+  JAVA_HOME="$(dirname "$(dirname "$JAVA_BIN")")"
+  bakinfo "Detected JAVA_HOME as $JAVA_HOME"
+
+  # If JAVA_HOME already defined in .bashrc, do nothing.
+  if ! grep -q 'JAVA_HOME' "$HOME/.bashrc"; then
+    cat <<EOF >> "$HOME/.bashrc"
+
+# --- Java setup (added by setup script) ---
+export JAVA_HOME="$JAVA_HOME"
+export PATH="\$JAVA_HOME/bin:\$PATH"
+# --- end java setup ---
+EOF
+  else
+    bakinfo "JAVA_HOME already defined in .bashrc - not modifying."
+  fi
+else
+  warn "java command not found - something has gone wrong." 
+  bakinfo "skipping JAVA_HOME configuration."
+fi
 
 cp "${HOME}/dotfiles/.bash_aliases" "${HOME}"
 update_progress
