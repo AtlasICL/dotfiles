@@ -142,6 +142,10 @@ sudo apt-get install -y default-jdk > /dev/null
 sudo apt-get install -y maven > /dev/null
 update_progress
 
+info "Installing prolog..."
+sudo apt-add-repository ppa:swi-prolog/stable
+sudo apt-get install -y swi-prolog
+
 info "Installing htop..."
 sudo apt-get install -y libncursesw5-dev autotools-dev autoconf automake > /dev/null
 sudo apt-get install -y htop > /dev/null
