@@ -143,7 +143,7 @@ sudo apt-get install -y maven > /dev/null
 update_progress
 
 info "Installing prolog..."
-sudo apt-get install -y swi-prolog
+sudo apt-get install -y swi-prolog > /dev/null
 update_progress
 
 info "Installing htop..."
