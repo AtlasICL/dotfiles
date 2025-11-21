@@ -19,7 +19,7 @@ error() { clear_progress; printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
 
 # ------------ PROGRESS BAR HELPERS ------------
 # Progress bar variables
-TOTAL_STEPS=29
+TOTAL_STEPS=28
 CURRENT_STEP=0
 PROGRESS_DRAWN=0
 
@@ -140,10 +140,6 @@ update_progress
 info "Installing java and maven..."
 sudo apt-get install -y default-jdk > /dev/null
 sudo apt-get install -y maven > /dev/null
-update_progress
-
-info "Installing prolog..."
-sudo apt-get install -y swi-prolog > /dev/null
 update_progress
 
 info "Installing htop..."
