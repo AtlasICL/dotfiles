@@ -20,10 +20,10 @@ it is free and open source.
 - Verifies sudo permissions.
 
 ## SSH  
-Generates an SSH key-pair if one doesn't exists on the machine.
+- Generates an SSH key-pair if one doesn't exists on the machine.
 
 ## Updates  
-Updates all system packages.
+- Updates all system packages.
 
 ## Developer tools  
 Installs the dev tools I use:
@@ -36,5 +36,5 @@ Installs the dev tools I use:
 - The script will create **time-stamped backups** for any files it overwrites.  
 - The backups can be found at `~/atlas-setup-backups/`
 
-**Progress bar**
+## Progress bar
 - Just because I was feeling fancy (and it's in orange).
