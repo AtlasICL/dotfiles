@@ -124,6 +124,16 @@ else
 fi
 update_progress
 
+# Ensure tar is installed.
+info "Checking tar installed..."
+if ! command -v tar >/dev/null 2>&1; then
+  bakinfo "tar not found, installing tar..."
+  sudo apt-get install -y tar > /dev/null
+else
+  bakinfo "tar already installed, skipping..."
+fi
+update_progress
+
 info "Installing git..."
 sudo apt-get install -y git > /dev/null 
 update_progress
