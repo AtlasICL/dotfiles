@@ -71,7 +71,6 @@ backup() {
     local backup_path="${BACKUP_DIR}/${filename}.bak.${timestamp}"
     bakinfo "Backing up $target -> $backup_path"
     cp -a -- "$target" "$backup_path"
-    bakinfo "Backup successful"
   fi
 }
 
@@ -121,7 +120,7 @@ if ! command -v wget >/dev/null 2>&1; then
   bakinfo "wget not found, installing wget..."
   sudo apt-get install -y wget > /dev/null
 else 
-  bakinfo "wget already installed, skipping..."
+  bakinfo "wget already installed, skipping."
 fi
 update_progress
 
@@ -131,7 +130,7 @@ if ! command -v tar >/dev/null 2>&1; then
   bakinfo "tar not found, installing tar..."
   sudo apt-get install -y tar > /dev/null
 else
-  bakinfo "tar already installed, skipping..."
+  bakinfo "tar already installed, skipping."
 fi
 update_progress
 
@@ -195,7 +194,7 @@ if ! command -v fastfetch >/dev/null 2>&1; then
     warn "System is not amd64 - skipping fastfetch installation"
   fi
 else
-  bakinfo "fastfetch already installed, skipping..."
+  bakinfo "fastfetch already installed, skipping."
 fi
 update_progress
 
@@ -204,7 +203,7 @@ mkdir -p ~/.local/bin # Create the directory if it doesn't exist.
 if command -v fdfind >/dev/null 2>&1; then
   ln -sfn "$(command -v fdfind)" "$HOME/.local/bin/fd"
 else
-  warn "fdfind not found, skipping fd symlink"
+  warn "fdfind not found, skipping fd symlink."
 fi
 update_progress
 
