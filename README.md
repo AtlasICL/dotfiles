@@ -7,7 +7,7 @@ This is my setup script for Ubuntu/Debian Linux systems.
 In your home directory, clone the repo, then run the setup script.
 ```
 git clone https://github.com/AtlasICL/dotfiles ~/dotfiles
-bash ./dotfiles/setup.sh
+bash ~/dotfiles/setup.sh
 ```
 **Notes:**
 - **You should modify** the `.gitconfig` in your home folder to with **your name and email**.
