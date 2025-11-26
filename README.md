@@ -9,7 +9,6 @@ In your home directory, clone the repo, then run the setup script.
 git clone https://github.com/AtlasICL/dotfiles ~/dotfiles
 bash ~/dotfiles/setup.sh
 ```
-**Notes:**
 - **You should modify** the `.gitconfig` in your home folder to with **your name and email**.
 - NeoVim requires a nerd font. I use [this one](https://www.programmingfonts.org/#jetbrainsmono), 
 it is free and open source.
@@ -26,11 +25,10 @@ it is free and open source.
 - Updates all system packages.
 
 ## Developer tools  
-Installs the dev tools I use:
-- C/C++ compilers and debuggers.
-- Java/Maven, and sets JAVA_HOME.
-- Command line tools: fzf, ripgrep, fd-find.
-- NeoVim (and related config files from this repo).
+- Installs C/C++ compilers and debuggers.
+- Installs Java/Maven, and sets JAVA_HOME.
+- Installs command line tools: fzf, ripgrep, fd-find.
+- Installs NeoVim, and copies config files (from this repo).
 
 ## Backups
 - The script will create **time-stamped backups** for any files it overwrites.  
