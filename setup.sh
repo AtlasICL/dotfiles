@@ -8,6 +8,7 @@ SUCCESS_COLOR="\033[35m"    # purple
 ERROR_COLOR="\033[31m"      # red
 BAKINFO_COLOR="\033[94m"    # blue
 PROG_COLOR="\033[38;5;208m" # orange
+BG_NAVY="\033[48;5;19m"     # dark blue (for highlighting)
 RESET="\033[0m"
 
 # Define console log functions.
@@ -32,7 +33,7 @@ draw_progress() {
   # Save cursor, move to bottom, draw progress, restore cursor
   tput sc  # Save cursor position
   tput cup $(tput lines) 0  # Move to last line
-  printf "${PROG_COLOR}Progress: ["
+  printf "${BG_NAVY}${PROG_COLOR}Progress:${RESET}${PROG_COLOR} ["
   printf "%${filled}s" | tr ' ' '#'
   printf "%${empty}s" | tr ' ' '.'
   printf "] %3d%%${RESET}" "$percent"
