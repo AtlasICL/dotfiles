@@ -274,4 +274,4 @@ cp -r "${HOME}/dotfiles/fastfetch" "${HOME}/.config"
 update_progress
 
 clear_progress
-success "Done. You should restart your shell. o7"
+success "Done. You should restart your shell."
