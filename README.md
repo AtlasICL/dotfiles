@@ -34,5 +34,18 @@ it is free and open source.
 - The script will create **time-stamped backups** for any files it overwrites.  
 - The backups can be found at `~/atlas-setup-backups/`
 
+## Aliases
+- Sets up aliases in .bashrc:
+    - `rm = rm -i` for confirmation on rm.
+    - `lsa = ls -aCF` for nicer ls.
+    - `give-key = cat ${HOME}/.ssh/id_ed25519.pub` for ssh pubkey.
+    - `update = sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove --purge -y` for
+    one-liner updates.
+    - As well as other necessary aliases for fd-find and ripgrep. 
+
 ## Progress bar
 - Just because I was feeling fancy (and it's in orange).
+
+## Optional scripts
+- `install_haskell.sh` to install Haskell toolchain.
+- `install_prolog.sh` to install Prolog.
