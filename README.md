@@ -42,6 +42,7 @@ it is free and open source.
     - `update = sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove --purge -y` for
     one-liner updates.
     - As well as other necessary aliases for fd-find and ripgrep. 
+- Some aliases are set up in a separate .bash_aliases file, which is then sourced in .bashrc.
 
 ## Progress bar
 - Just because I was feeling fancy (and it's in orange).
