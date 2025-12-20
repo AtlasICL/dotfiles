@@ -14,27 +14,27 @@ bash ~/dotfiles/setup.sh
 it is free and open source.
 
 # Features and behaviour
-## Sanity checks
+### Sanity checks
 - Verifies script is running on an apt-based system.  
 - Verifies sudo permissions.
 
-## SSH  
+### SSH  
 - Generates an SSH key-pair if one doesn't exists on the machine.
 
-## Updates  
+### Updates  
 - Updates all system packages.
 
-## Developer tools  
+### Developer tools  
 - Installs C/C++ compilers and debuggers.
 - Installs Java/Maven, and sets JAVA_HOME.
 - Installs command line tools: fzf, ripgrep, fd-find.
 - Installs NeoVim, and copies config files (from this repo).
 
-## Backups
+### Backups
 - The script will create **time-stamped backups** for any files it overwrites.  
 - The backups can be found at `~/atlas-setup-backups/`
 
-## Aliases
+### Aliases
 - Sets up aliases in .bashrc:
     - `rm = rm -i` for confirmation on rm.
     - `lsa = ls -aCF` for nicer ls.
@@ -44,9 +44,9 @@ it is free and open source.
     - As well as other necessary aliases for fd-find and ripgrep. 
 - Some aliases are set up in a separate .bash_aliases file, which is then sourced in .bashrc.
 
-## Progress bar
+### Progress bar
 - Just because I was feeling fancy (and it's in orange).
 
-## Optional scripts
+### Optional scripts
 - `install_haskell.sh` to install Haskell toolchain.
 - `install_prolog.sh` to install Prolog.
