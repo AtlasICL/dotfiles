@@ -106,4 +106,13 @@ if [ -z "$SSH_CONNECTION" ] && command -v fastfetch >/dev/null 2>&1; then
     fastfetch
 fi
 
+# Custom function to navigate into a directory and open it in VS Code.
+op () {
+  if [ -z "$1" ]; then
+    echo "Usage: op <dir>" >&2
+    return 2
+  fi
+  cd "$1" && code .
+}
+
 export PATH="$HOME/.local/bin:$PATH"

@@ -44,6 +44,11 @@ it is free and open source.
     - As well as other necessary aliases for fd-find and ripgrep. 
 - Some aliases are set up in a separate .bash_aliases file, which is then sourced in .bashrc.
 
+### Custom functions
+- Sets up my custom functions in .bashrc.
+    - `op <dir>`, which is a custom function which navigates to a folder and opens it in VS Code.
+    - Effectively, `op <dir>` = `cd <dir> && code .`
+
 ### Progress bar
 - Just because I was feeling fancy (and it's in orange).
 
