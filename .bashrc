@@ -115,4 +115,13 @@ op () {
   cd "$1" && code .
 }
 
+# Custom function to get the size of a directory.
+sizeofdir () {
+  if [ "$#" -eq 0 ]; then
+    echo "Usage: sizeofdir <dir> OPTIONAL[dir2 dir3 ...]" >&2
+    return 2
+  fi
+  du -hs -- "$@"
+}
+
 export PATH="$HOME/.local/bin:$PATH"

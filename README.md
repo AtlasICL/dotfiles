@@ -46,6 +46,8 @@ it is free and open source.
 
 ### Custom functions
 - Sets up my custom functions in .bashrc.
+    - `sizeofdir <dir>` to get the size of a directory (recursive).
+    - Accepts multiple arguments: `sizeofdir dir1 dir2 dir3`.
     - `op <dir>`, which is a custom function which navigates to a folder and opens it in VS Code.
     - Effectively, `op <dir>` = `cd <dir> && code .`
 
