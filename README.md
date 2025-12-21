@@ -13,47 +13,17 @@ bash ~/dotfiles/setup.sh
 - NeoVim requires a nerd font. I use [this one](https://www.programmingfonts.org/#jetbrainsmono), 
 it is free and open source.
 
-# Features and behaviour
-### Sanity checks
-- Verifies script is running on an apt-based system.  
-- Verifies sudo permissions.
+## Features and behaviour
 
-### SSH  
-- Generates an SSH key-pair if one doesn't exists on the machine.
+|   |   |
+|---|---|
+| Sanity checks | - Verifies script is running on an apt-based system.<br>- Verifies sudo permissions. |
+| SSH | - Generates an SSH key-pair if one doesn't exist on the machine.<br>- Sets up an alias to quickly get ssh public key. |
+| Updates | - Updates all system packages. |
+| Developer tools | - Installs C/C++ compilers and debuggers.<br>- Installs Java/Maven, and sets `JAVA_HOME`.<br>- Installs command line tools: `fzf`, `ripgrep`, `fd-find`.<br>- Installs NeoVim, and copies config files (from this repo). |
+| Backups | - Creates **time-stamped backups** for any files it overwrites.<br>- Backups are stored in `~/atlas-setup-backups/`. |
+| Custom functions | - Adds custom functions to `.bashrc`:<br>&nbsp;&nbsp;• `sizeofdir <dir> [dir ...]` (recursive size; supports multiple args)<br>&nbsp;&nbsp;• `op <dir>` (equivalent to `cd <dir> && code .`) |
+| Aliases | - Sets up aliases in `.bashrc`:<br>&nbsp;&nbsp;• `rm='rm -i'` (confirm before removing)<br>&nbsp;&nbsp;• `lsa='ls -aCF'` (nicer `ls`)<br>&nbsp;&nbsp;• `give-key='cat ${HOME}/.ssh/id_ed25519.pub'` (print SSH pubkey)<br>&nbsp;&nbsp;• `update='sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove --purge -y'` (one-liner updates)<br>&nbsp;&nbsp;• Plus other necessary aliases for `fd-find` and `ripgrep`<br>- Some aliases are set up in `.bash_aliases`, which is sourced in `.bashrc`. |
+| Progress bar | - Displays a progress bar (orange). |
+| Optional scripts | - `install_haskell.sh` to install the Haskell toolchain.<br>- `install_prolog.sh` to install Prolog. |
 
-### Updates  
-- Updates all system packages.
-
-### Developer tools  
-- Installs C/C++ compilers and debuggers.
-- Installs Java/Maven, and sets JAVA_HOME.
-- Installs command line tools: fzf, ripgrep, fd-find.
-- Installs NeoVim, and copies config files (from this repo).
-
-### Backups
-- The script will create **time-stamped backups** for any files it overwrites.  
-- The backups can be found at `~/atlas-setup-backups/`
-
-### Aliases
-- Sets up aliases in .bashrc:
-    - `rm = rm -i` for confirmation on rm.
-    - `lsa = ls -aCF` for nicer ls.
-    - `give-key = cat ${HOME}/.ssh/id_ed25519.pub` for ssh pubkey.
-    - `update = sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove --purge -y` for
-    one-liner updates.
-    - As well as other necessary aliases for fd-find and ripgrep. 
-- Some aliases are set up in a separate .bash_aliases file, which is then sourced in .bashrc.
-
-### Custom functions
-- Sets up my custom functions in .bashrc.
-    - `sizeofdir <dir>` to get the size of a directory (recursive).
-    - Accepts multiple arguments: `sizeofdir dir1 dir2 dir3`.
-    - `op <dir>`, which is a custom function which navigates to a folder and opens it in VS Code.
-    - Effectively, `op <dir>` = `cd <dir> && code .`
-
-### Progress bar
-- Just because I was feeling fancy (and it's in orange).
-
-### Optional scripts
-- `install_haskell.sh` to install Haskell toolchain.
-- `install_prolog.sh` to install Prolog.
