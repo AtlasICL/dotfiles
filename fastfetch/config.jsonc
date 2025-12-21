@@ -7,7 +7,6 @@
         }
     },
     "modules": [
-        "separator",
         "os",
         "kernel",
         "shell",
