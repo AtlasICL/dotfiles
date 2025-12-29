@@ -124,4 +124,22 @@ sizeofdir () {
   du -hs -- "$@"
 }
 
+# Custom function for quick clone of GitHub repo.
+gitcl () {
+  if (( $# < 1 || $# > 2 )); then
+    echo "Usage: gitcl <repo> OPTIONAL[path]" >&2
+    return 2
+  fi
+
+  local repo="$1"
+  local dest="${2-}"
+  local url="git@github.com:AtlasICL/$repo"
+
+  if [[ -z "$dest" ]]; then
+    git clone -- "$url"
+  else
+    git clone -- "$url" "$dest"
+  fi
+}
+
 export PATH="$HOME/.local/bin:$PATH"
