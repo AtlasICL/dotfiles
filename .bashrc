@@ -117,10 +117,16 @@ op () {
 
 # Custom function to get the size of a directory.
 sizeofdir () {
-  if [[ "$#" -eq 0 ]]; then
+  if (( $# == 0 )); then
     echo "Usage: sizeofdir <dir> OPTIONAL[dir2 dir3 ...]" >&2
     return 2
   fi
+
+#   local p
+#   for p in "$@"; do
+#     [[ -d "$p" ]] || { echo "Not a directory: $p" >&2; return 2; }
+#   done
+
   du -hs -- "$@"
 }
 
