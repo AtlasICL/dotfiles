@@ -59,7 +59,7 @@ update_progress() {
 # -------- END PROGRESS BAR HELPERS --------
 
 
-BACKUP_DIR="${HOME}/atlas-setup-backups"
+BACKUP_DIR="${HOME}/.atlas-setup-backups"
 
 # Function to create time-stamped backups of the files this script might overwrite.
 backup() {
