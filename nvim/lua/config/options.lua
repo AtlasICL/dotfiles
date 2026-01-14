@@ -23,6 +23,9 @@ vim.opt.scrolloff = 4 -- keeps 4 lines visible above or below the cursor
 vim.opt.showmode = true -- show current mode
 vim.opt.wrap = false -- don’t soft-wrap long lines
 
+-- Cursor
+vim.opt.guicursor = "a:ver25" -- line-style cursor instead of block-style
+
 -- Mouse & clipboard
 vim.opt.mouse = "a" -- enable mouse in all modes
 vim.opt.clipboard = "unnamedplus" -- use system clipboard
