@@ -23,5 +23,5 @@ it is free and open source.
 | Custom functions | - Adds custom functions to `.bashrc`:<br>&nbsp;&nbsp;• `sizeofdir <dir> [dir ...]` (recursive size; supports multiple args)<br>&nbsp;&nbsp;• `op <dir>` (equivalent to `cd <dir> && code .`) |
 | Aliases | - Sets up aliases in `.bashrc`:<br>&nbsp;&nbsp;• `rm='rm -i'` (confirm before removing)<br>&nbsp;&nbsp;• `lsa='ls -aCF'` (nicer `ls`)<br>&nbsp;&nbsp;• `give-key='cat ${HOME}/.ssh/id_ed25519.pub'` (print SSH pubkey)<br>&nbsp;&nbsp;• `update='sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove --purge -y'` (one-liner updates)<br>&nbsp;&nbsp;• Plus other necessary aliases for `fd-find` and `ripgrep`<br>- Some aliases are set up in `.bash_aliases`, which is sourced in `.bashrc`. |
 | Progress bar | - Displays a progress bar (persistent at bottom line of terminal window). |
-| Optional scripts | - `install_haskell.sh` to install the Haskell toolchain.<br>- `install_prolog.sh` to install Prolog. |
+| Optional scripts | - `install_haskell.sh` to install the Haskell toolchain.<br>- `install_prolog.sh` to install Prolog.<br>- `install_swift.sh` to install Swift. |
 
