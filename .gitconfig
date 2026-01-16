@@ -21,3 +21,4 @@
 [alias]
     st = status -s
     pr = pull --rebase
+    co = checkout
