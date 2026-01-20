@@ -1,9 +1,9 @@
 [user]
-	email = dev@eacarsoy.com
-	name = Emre Acarsoy
+    email = dev@eacarsoy.com
+    name = Emre Acarsoy
 
 [core]
-	editor = code --wait
+    editor = code --wait
     defaultBranch = main
 
 [init]
