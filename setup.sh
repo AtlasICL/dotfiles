@@ -181,6 +181,10 @@ info "Installing neovim..."
 sudo apt-get install -y neovim > /dev/null
 update_progress
 
+info "Installing bat..."
+sudo apt-get install -y bat > /dev/null
+update_progress
+
 info "Installing fastfetch..."
 if ! command -v fastfetch >/dev/null 2>&1; then
   bakinfo "Checking compatibility..."
