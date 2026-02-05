@@ -15,3 +15,5 @@ alias bat='batcat -P'
 
 # Alias cat to bat
 alias cat='batcat -P'
+
+alias python='python3'
