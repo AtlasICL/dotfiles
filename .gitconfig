@@ -3,22 +3,27 @@
     name = Emre Acarsoy
 
 [core]
+    # Use VS Code instead of vim
     editor = code --wait
-    defaultBranch = main
 
 [init]
     defaultBranch = main
 
 [fetch]
-    prune = true # prune deleted remote branches
+    # Prune deleted remote branches
+    prune = true
 
 [pull]
-    rebase = true # explicitly set pull behaviour to rebase
+    # Explicitly rebase on pull
+    rebase = true
 
 [rebase]
-    autoStash = true # auto stash when rebasing
+    # Automatically stash
+    autoStash = true
 
 [alias]
+    # My custom aliases
     st = status -s
-    pr = pull --rebase
     co = checkout
+    uncommit = reset --soft HEAD~1
+    editcommit = commit --amend
