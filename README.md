@@ -1,17 +1,15 @@
-# Atlas setup script
-This is my setup script for Ubuntu/Debian Linux systems.  
+## Setup script for Ubuntu/Debian Linux systems.  
 
-# Instructions
+## Instructions
 In your home directory, clone the repo, then run the setup script.
 ```
 git clone https://github.com/AtlasICL/dotfiles ~/dotfiles
 bash ~/dotfiles/setup.sh
 ```
-- **You should modify** the `.gitconfig` in your home folder to with **your name and email**.
-- NeoVim requires a nerd font. I use [this one](https://www.programmingfonts.org/#jetbrainsmono), 
-it is free and open source.
+- **You should modify** the `.gitconfig` in your home folder to with your own name and email.
+- NeoVim requires a nerd font. I use [this one](https://www.programmingfonts.org/#jetbrainsmono); it is free and open source.
 
-# Features and behaviour
+## Features and behaviour
 
 |                  |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
