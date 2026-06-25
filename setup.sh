@@ -212,7 +212,7 @@ fi
 update_progress
 
 # Neovim expects fd, so we will link fd to fd-find.
-mkdir -p ~/.local/bin # Create the directory if it doesn't exist.
+mkdir -p "${HOME}/.local/bin" # Create the directory if it doesn't exist.
 if command -v fdfind >/dev/null 2>&1; then
   ln -sfn "$(command -v fdfind)" "$HOME/.local/bin/fd"
 else
