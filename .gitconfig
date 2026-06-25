@@ -1,10 +1,23 @@
 [user]
     email = dev@eacarsoy.com
     name = Emre Acarsoy
+    signingkey = ~/.ssh/id_ed25519.pub
 
 [core]
     # Use VS Code instead of vim
     editor = code --wait
+
+[gpg]
+    format = ssh
+
+[gpg "ssh"]
+    allowedSignersFile = ~/allowed_signers
+
+[commit]
+    gpgSign = true
+
+[tag]
+    gpgSign = true
 
 [init]
     defaultBranch = main
@@ -18,11 +31,9 @@
     rebase = true
 
 [rebase]
-    # Automatically stash
     autoStash = true
 
 [alias]
-    # My custom aliases
     st = status -s
     uncommit = reset --soft HEAD~1
     editcommit = commit --amend

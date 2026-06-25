@@ -20,7 +20,7 @@ error() { clear_progress; printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
 
 # ------------ PROGRESS BAR HELPERS ------------
 # Progress bar variables
-TOTAL_STEPS=28
+TOTAL_STEPS=30
 CURRENT_STEP=0
 PROGRESS_DRAWN=0
 
@@ -102,6 +102,15 @@ else
   bakinfo "SSH key already exists, skipping."
 fi
 update_progress
+
+info "Ensuring allowed signers file exists"
+if [ ! -f "${HOME}/.ssh/allowed_signers" ]; then
+  bakinfo "No allowed signers file found. Generating empty file..."
+  touch "${HOME}/.ssh/allowed_signers"
+else
+  bakinfo "Allowed signers file already exists, skipping."
+fi
+update_progress 
 
 info "Setting hush login..."
 touch "${HOME}/.hushlogin"
