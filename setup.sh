@@ -270,12 +270,31 @@ if ! grep -q '.git_commands_custom.sh' "$HOME/.bashrc"; then
 
 # --- git custom commands (added by setup script) ---
 if [[ -f ~/.git_commands_custom.sh ]]; then
-    . ~/.git_commands_custom.sh
+    source ~/.git_commands_custom.sh
 fi
 # --- end git custom commands ---
 EOF
 else
   bakinfo ".git_commands_custom.sh already sourced in .bashrc - not modifying."
+fi
+update_progress
+
+cp "${HOME}/dotfiles/.tmux_commands_custom.sh" "${HOME}"
+update_progress
+
+info "Sourcing .tmux_commands_custom.sh from .bashrc..."
+# If the source block is already present in .bashrc, do nothing.
+if ! grep -q '.tmux_commands_custom.sh' "$HOME/.bashrc"; then
+  cat <<'EOF' >> "$HOME/.bashrc"
+
+# --- tmux custom commands (added by setup script) ---
+if [[ -f ~/.tmux_commands_custom.sh ]]; then
+    source ~/.tmux_commands_custom.sh
+fi
+# --- end tmux custom commands ---
+EOF
+else
+  bakinfo ".tmux_commands_custom.sh already sourced in .bashrc - not modifying."
 fi
 update_progress
 
