@@ -9,10 +9,18 @@ tnew() {
     tmux new-session ${1:+-s "$1"}
 }
 
-# List sessions with nice formatting
+# List sessions in aligned columns
 tls() {
-    tmux list-sessions -F '#{session_name}: #{session_windows} window(s)#{?session_attached, (attached),}' 2>/dev/null \
-        || echo "No tmux sessions."
+    local tab out
+    tab=$(printf '\t')
+    # tmux does not interpret \t in -F, so pass a real tab via $tab and let
+    # `column` align on it (spaces within fields are preserved).
+    out=$(tmux list-sessions -F "#{session_name}${tab}#{session_windows}${tab}#{?session_attached,attached,-}" 2>/dev/null)
+    if [ -z "$out" ]; then
+        echo "No tmux sessions."
+        return
+    fi
+    { printf "SESSION${tab}WINDOWS${tab}STATUS\n"; printf '%s\n' "$out"; } | column -t -s "$tab"
 }
 
 # Kill specific session by name (using fzf)

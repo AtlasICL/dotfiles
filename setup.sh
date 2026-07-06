@@ -20,7 +20,7 @@ error() { clear_progress; printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
 
 # ------------ PROGRESS BAR HELPERS ------------
 # Progress bar variables
-TOTAL_STEPS=30
+TOTAL_STEPS=28
 CURRENT_STEP=0
 PROGRESS_DRAWN=0
 
@@ -74,14 +74,52 @@ backup() {
   fi
 }
 
-if ! command -v apt-get >/dev/null 2>&1; then
-  error "This script is for Debian/Ubuntu (apt-based) systems."
-  exit 1
-fi
+# ------------ OS DETECTION & HELPERS ------------
+OS="$(uname -s)"
 
-if ! sudo -v 2>/dev/null; then
-  error "This script requires sudo privileges."
-  exit 1
+# pkg_install <apt-name>: install a package with the platform package manager,
+# translating names that differ between apt (Debian/Ubuntu) and brew (macOS).
+pkg_install() {
+  local name="$1"
+  if [ "$OS" = "Darwin" ]; then
+    local brew_name="$name"
+    case "$name" in
+      fd-find)         brew_name="fd" ;;
+      default-jdk)     brew_name="openjdk" ;;
+      python3-pip)     return 0 ;; # pip ships with Homebrew's python3
+      build-essential) return 0 ;; # provided by Xcode Command Line Tools
+    esac
+    brew install "$brew_name" >/dev/null
+  else
+    sudo apt-get install -y "$name" >/dev/null
+  fi
+}
+
+# append_block <file> <marker>: append stdin to <file> only if <marker> is
+# not already present. Creates the file if it does not exist.
+append_block() {
+  local file="$1" marker="$2"
+  [ -f "$file" ] || touch "$file"
+  if ! grep -qF "$marker" "$file"; then
+    cat >> "$file"
+  fi
+}
+# ---------- END OS DETECTION & HELPERS ----------
+
+if [ "$OS" = "Darwin" ]; then
+  if ! command -v brew >/dev/null 2>&1; then
+    error "Homebrew is required on macOS. Install it from https://brew.sh and re-run."
+    exit 1
+  fi
+else
+  if ! command -v apt-get >/dev/null 2>&1; then
+    error "This script supports macOS (Homebrew) and Debian/Ubuntu (apt) systems."
+    exit 1
+  fi
+  if ! sudo -v 2>/dev/null; then
+    error "This script requires sudo privileges."
+    exit 1
+  fi
 fi
 
 if [ ! -d "${HOME}/dotfiles" ]; then
@@ -117,85 +155,96 @@ touch "${HOME}/.hushlogin"
 update_progress
 
 info "Updating packages..."
-sudo apt-get update > /dev/null 
-update_progress
-
-sudo apt-get upgrade -y > /dev/null
-update_progress
-
-# Ensure wget is installed (needed for fastfetch install)
-info "Checking wget installed..."
-if ! command -v wget >/dev/null 2>&1; then
-  bakinfo "wget not found, installing wget..."
-  sudo apt-get install -y wget > /dev/null
-else 
-  bakinfo "wget already installed, skipping."
-fi
-update_progress
-
-# Ensure tar is installed.
-info "Checking tar installed..."
-if ! command -v tar >/dev/null 2>&1; then
-  bakinfo "tar not found, installing tar..."
-  sudo apt-get install -y tar > /dev/null
+if [ "$OS" = "Darwin" ]; then
+  brew update > /dev/null
+  update_progress
+  brew upgrade > /dev/null
+  update_progress
 else
-  bakinfo "tar already installed, skipping."
+  sudo apt-get update > /dev/null
+  update_progress
+  sudo apt-get upgrade -y > /dev/null
+  update_progress
 fi
-update_progress
+
+# wget/tar are only needed for the Linux fastfetch .deb install below.
+if [ "$OS" != "Darwin" ]; then
+  info "Checking wget installed..."
+  if ! command -v wget >/dev/null 2>&1; then
+    bakinfo "wget not found, installing wget..."
+    sudo apt-get install -y wget > /dev/null
+  else
+    bakinfo "wget already installed, skipping."
+  fi
+  update_progress
+
+  info "Checking tar installed..."
+  if ! command -v tar >/dev/null 2>&1; then
+    bakinfo "tar not found, installing tar..."
+    sudo apt-get install -y tar > /dev/null
+  else
+    bakinfo "tar already installed, skipping."
+  fi
+  update_progress
+fi
 
 info "Installing git..."
-sudo apt-get install -y git > /dev/null 
+pkg_install git
 update_progress
 
 info "Installing C/C++ compilers..."
-sudo apt-get install -y build-essential > /dev/null
+pkg_install build-essential
 update_progress
 
 info "Installing Python and pip..."
-sudo apt-get install -y python3 > /dev/null
-sudo apt-get install -y python3-pip > /dev/null
+pkg_install python3
+pkg_install python3-pip
 update_progress
 
 info "Installing java and maven..."
-sudo apt-get install -y default-jdk > /dev/null
-sudo apt-get install -y maven > /dev/null
+pkg_install default-jdk
+pkg_install maven
 update_progress
 
 info "Installing htop..."
-sudo apt-get install -y libncursesw5-dev autotools-dev autoconf automake > /dev/null
-sudo apt-get install -y htop > /dev/null
+if [ "$OS" != "Darwin" ]; then
+  sudo apt-get install -y libncursesw5-dev autotools-dev autoconf automake > /dev/null
+fi
+pkg_install htop
 update_progress
 
 info "Installing tmux..."
-sudo apt-get install -y tmux > /dev/null
+pkg_install tmux
 update_progress
 
 info "Installing fd..."
-sudo apt-get install -y fd-find > /dev/null
+pkg_install fd-find
 update_progress
 
 info "Installing ripgrep..."
-sudo apt-get install -y ripgrep > /dev/null
+pkg_install ripgrep
 update_progress
 
 info "Installing fzf..."
-sudo apt-get install -y fzf > /dev/null
+pkg_install fzf
 update_progress
 
 info "Installing tree..."
-sudo apt-get install -y tree > /dev/null
+pkg_install tree
 update_progress
 
 info "Installing neovim..."
-sudo apt-get install -y neovim > /dev/null
+pkg_install neovim
 update_progress
 
 info "Installing bat..."
-sudo apt-get install -y bat > /dev/null
+pkg_install bat
 update_progress
 
 info "Installing fastfetch..."
-if ! command -v fastfetch >/dev/null 2>&1; then
+if [ "$OS" = "Darwin" ]; then
+  bakinfo "Skipping fastfetch on macOS."
+elif ! command -v fastfetch >/dev/null 2>&1; then
   bakinfo "Checking compatibility..."
   ARCH="$(dpkg --print-architecture)"
   if [ "$ARCH" = "amd64" ]; then
@@ -203,7 +252,7 @@ if ! command -v fastfetch >/dev/null 2>&1; then
     wget -O /tmp/fastfetch.deb https://github.com/fastfetch-cli/fastfetch/releases/download/2.55.0/fastfetch-linux-amd64.deb > /dev/null 2>&1
     sudo apt-get install -y /tmp/fastfetch.deb > /dev/null
     rm /tmp/fastfetch.deb # Explicitly delete after installation
-  else 
+  else
     warn "System is not amd64 - skipping fastfetch installation"
   fi
 else
@@ -211,103 +260,108 @@ else
 fi
 update_progress
 
-# Neovim expects fd, so we will link fd to fd-find.
-mkdir -p "${HOME}/.local/bin" # Create the directory if it doesn't exist.
-if command -v fdfind >/dev/null 2>&1; then
-  ln -sfn "$(command -v fdfind)" "$HOME/.local/bin/fd"
-else
-  warn "fdfind not found, skipping fd symlink."
+# Neovim expects fd. On Debian the binary is named fdfind, so symlink it to fd.
+# On macOS the Homebrew binary is already named fd, so nothing to do.
+if [ "$OS" != "Darwin" ]; then
+  mkdir -p "${HOME}/.local/bin" # Create the directory if it doesn't exist.
+  if command -v fdfind >/dev/null 2>&1; then
+    ln -sfn "$(command -v fdfind)" "$HOME/.local/bin/fd"
+  else
+    warn "fdfind not found, skipping fd symlink."
+  fi
 fi
 update_progress
 
 info "Backing up current configs..."
 backup "${HOME}/.bashrc"
+backup "${HOME}/.shell_common.sh"
 backup "${HOME}/.bash_aliases"
 backup "${HOME}/.nanorc"
 backup "${HOME}/.gitconfig"
 backup "${HOME}/.config/fastfetch"
 backup "${HOME}/.inputrc"
 backup "${HOME}/.tmux.conf"
+if [ "$OS" = "Darwin" ]; then
+  backup "${HOME}/.zshrc"
+  backup "${HOME}/.bash_profile"
+fi
 update_progress
 
 info "Linking dotfiles into home directory..."
 cp "${HOME}/dotfiles/.bashrc" "${HOME}"
+cp "${HOME}/dotfiles/.shell_common.sh" "${HOME}"
+cp "${HOME}/dotfiles/.bash_aliases" "${HOME}"
+cp "${HOME}/dotfiles/.git_commands_custom.sh" "${HOME}"
+cp "${HOME}/dotfiles/.tmux_commands_custom.sh" "${HOME}"
+cp "${HOME}/dotfiles/.nanorc" "${HOME}"
+cp "${HOME}/dotfiles/.gitconfig" "${HOME}"
+cp "${HOME}/dotfiles/.inputrc" "${HOME}"
+cp "${HOME}/dotfiles/.tmux.conf" "${HOME}"
 update_progress
 
-info "Setting JAVA_HOME in .bashrc..."
-if command -v java >/dev/null 2>&1; then
-  JAVA_BIN="$(readlink -f "$(command -v java)")"
-  JAVA_HOME="$(dirname "$(dirname "$JAVA_BIN")")"
-  bakinfo "Detected JAVA_HOME as $JAVA_HOME"
+# The committed .bashrc sources ~/.shell_common.sh (which loads aliases and the
+# custom git/tmux command files). On macOS we also wire up zsh and bash login
+# shells so both shells share the same configuration.
+RC_FILES=("${HOME}/.bashrc")
+if [ "$OS" = "Darwin" ]; then
+  RC_FILES+=("${HOME}/.zshrc")
 
-  # If JAVA_HOME already defined in .bashrc, do nothing.
-  if ! grep -q 'JAVA_HOME' "$HOME/.bashrc"; then
-    cat <<EOF >> "$HOME/.bashrc"
+  info "Configuring zsh (~/.zshrc)..."
+  append_block "${HOME}/.zshrc" "shared shell config (added by setup script)" <<'EOF'
+
+# --- shared shell config (added by setup script) ---
+if [[ -f ~/.shell_common.sh ]]; then
+    . ~/.shell_common.sh
+fi
+# --- end shared shell config ---
+EOF
+  update_progress
+
+  info "Ensuring ~/.bash_profile sources ~/.bashrc..."
+  append_block "${HOME}/.bash_profile" "source .bashrc (added by setup script)" <<'EOF'
+
+# --- source .bashrc (added by setup script) ---
+if [[ -f ~/.bashrc ]]; then
+    . ~/.bashrc
+fi
+# --- end source .bashrc ---
+EOF
+  update_progress
+fi
+
+info "Configuring JAVA_HOME..."
+JAVA_HOME_VALUE=""
+if [ "$OS" = "Darwin" ]; then
+  if /usr/libexec/java_home >/dev/null 2>&1; then
+    JAVA_HOME_VALUE="$(/usr/libexec/java_home)"
+  else
+    # Homebrew's openjdk is keg-only and not registered with java_home.
+    brew_jdk="$(brew --prefix openjdk 2>/dev/null)/libexec/openjdk.jdk/Contents/Home"
+    if [ -d "$brew_jdk" ]; then
+      JAVA_HOME_VALUE="$brew_jdk"
+    fi
+  fi
+else
+  if command -v java >/dev/null 2>&1; then
+    JAVA_BIN="$(readlink -f "$(command -v java)")"
+    JAVA_HOME_VALUE="$(dirname "$(dirname "$JAVA_BIN")")"
+  fi
+fi
+
+if [ -n "$JAVA_HOME_VALUE" ]; then
+  bakinfo "Detected JAVA_HOME as $JAVA_HOME_VALUE"
+  for rc in "${RC_FILES[@]}"; do
+    append_block "$rc" "Java setup (added by setup script)" <<EOF
 
 # --- Java setup (added by setup script) ---
-export JAVA_HOME="$JAVA_HOME"
+export JAVA_HOME="$JAVA_HOME_VALUE"
 export PATH="\$JAVA_HOME/bin:\$PATH"
 # --- end java setup ---
 EOF
-  else
-    bakinfo "JAVA_HOME already defined in .bashrc - not modifying."
-  fi
+  done
 else
-  warn "java command not found - something has gone wrong." 
-  bakinfo "skipping JAVA_HOME configuration."
+  warn "Could not determine JAVA_HOME - skipping JAVA_HOME configuration."
 fi
-
-cp "${HOME}/dotfiles/.bash_aliases" "${HOME}"
-update_progress
-
-cp "${HOME}/dotfiles/.git_commands_custom.sh" "${HOME}"
-update_progress
-
-info "Sourcing .git_commands_custom.sh from .bashrc..."
-# If the source block is already present in .bashrc, do nothing.
-if ! grep -q '.git_commands_custom.sh' "$HOME/.bashrc"; then
-  cat <<'EOF' >> "$HOME/.bashrc"
-
-# --- git custom commands (added by setup script) ---
-if [[ -f ~/.git_commands_custom.sh ]]; then
-    source ~/.git_commands_custom.sh
-fi
-# --- end git custom commands ---
-EOF
-else
-  bakinfo ".git_commands_custom.sh already sourced in .bashrc - not modifying."
-fi
-update_progress
-
-cp "${HOME}/dotfiles/.tmux_commands_custom.sh" "${HOME}"
-update_progress
-
-info "Sourcing .tmux_commands_custom.sh from .bashrc..."
-# If the source block is already present in .bashrc, do nothing.
-if ! grep -q '.tmux_commands_custom.sh' "$HOME/.bashrc"; then
-  cat <<'EOF' >> "$HOME/.bashrc"
-
-# --- tmux custom commands (added by setup script) ---
-if [[ -f ~/.tmux_commands_custom.sh ]]; then
-    source ~/.tmux_commands_custom.sh
-fi
-# --- end tmux custom commands ---
-EOF
-else
-  bakinfo ".tmux_commands_custom.sh already sourced in .bashrc - not modifying."
-fi
-update_progress
-
-cp "${HOME}/dotfiles/.nanorc" "${HOME}"
-update_progress
-
-cp "${HOME}/dotfiles/.gitconfig" "${HOME}"
-update_progress
-
-cp "${HOME}/dotfiles/.inputrc" "${HOME}"
-update_progress
-
-cp "${HOME}/dotfiles/.tmux.conf" "${HOME}"
 update_progress
 
 info "Backing up neovim config..."
@@ -319,9 +373,12 @@ mkdir -p "${HOME}/.config"  # Create .config directory if necessary.
 cp -r "${HOME}/dotfiles/nvim" "${HOME}/.config"
 update_progress
 
-info "Linking fastfetch config..."
-mkdir -p "${HOME}/.config" 
-cp -r "${HOME}/dotfiles/fastfetch" "${HOME}/.config"
+# fastfetch is not installed on macOS, so its config is only linked on Linux.
+if [ "$OS" != "Darwin" ]; then
+  info "Linking fastfetch config..."
+  mkdir -p "${HOME}/.config"
+  cp -r "${HOME}/dotfiles/fastfetch" "${HOME}/.config"
+fi
 update_progress
 
 clear_progress

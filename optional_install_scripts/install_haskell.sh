@@ -18,24 +18,36 @@ success() { printf "\n${SUCCESS_COLOR}[OK  ] %s${RESET}\n" "$*"; }
 warn() { printf "\n${ERROR_COLOR}[WARN] %s${RESET}\n" "$*"; }
 error() { printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
 
-if ! command -v apt-get >/dev/null 2>&1; then
-  error "This script is for Debian/Ubuntu (apt-based) systems."
-  exit 1
-fi
+OS="$(uname -s)"
 
-if ! sudo -v 2>/dev/null; then
-  error "This script requires sudo privileges."
-  exit 1
+if [ "$OS" = "Darwin" ]; then
+  if ! command -v brew >/dev/null 2>&1; then
+    error "Homebrew is required on macOS. Install it from https://brew.sh and re-run."
+    exit 1
+  fi
+else
+  if ! command -v apt-get >/dev/null 2>&1; then
+    error "This script supports macOS (Homebrew) and Debian/Ubuntu (apt) systems."
+    exit 1
+  fi
+
+  if ! sudo -v 2>/dev/null; then
+    error "This script requires sudo privileges."
+    exit 1
+  fi
 fi
 
 info "Installing Haskell toolchain..."
-sudo apt-get install libffi-dev libffi8 libgmp-dev libgmp10 libncurses-dev pkg-config > /dev/null
+# Install the build dependencies that ghcup needs (Linux only; macOS provides
+# these via the Xcode Command Line Tools that Homebrew already requires).
+if [ "$OS" != "Darwin" ]; then
+  sudo apt-get install -y libffi-dev libffi8 libgmp-dev libgmp10 libncurses-dev pkg-config > /dev/null
+fi
 curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 
-if ! command -v swipl >/dev/null 2>&1; then
-  error "Something went wrong!"
-  error "Haskell compiler (ghc) not found on PATH after installation."
-  exit 1
+# ghcup installs to ~/.ghcup/bin, which is added to PATH via its env file.
+if ! command -v ghc >/dev/null 2>&1 && [ ! -x "${HOME}/.ghcup/bin/ghc" ]; then
+  warn "ghc not found on PATH yet. Restart your shell (or source ~/.ghcup/env) to use it."
 fi
 
 success "Done! It's a good idea to restart your shell."

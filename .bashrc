@@ -86,10 +86,6 @@ fi
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-if [[ -f ~/.bash_aliases ]]; then
-    . ~/.bash_aliases
-fi
-
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -101,51 +97,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Run fastfetch on startup (except if running through ssh).
-if [[ -z "$SSH_CONNECTION" ]] && command -v fastfetch >/dev/null 2>&1; then
-    fastfetch
+# Load shared shell configuration (aliases, custom functions, PATH).
+# Also sourced by ~/.zshrc so both shells share the same setup.
+if [[ -f ~/.shell_common.sh ]]; then
+    . ~/.shell_common.sh
 fi
-
-# Custom function to navigate into a directory and open it in VS Code.
-op () {
-  if [[ -z "$1" ]]; then
-    echo "Usage: op <dir>" >&2
-    return 2
-  fi
-  cd "$1" && code .
-}
-
-# Custom function to get the size of a directory.
-sizeofdir () {
-  if (( $# == 0 )); then
-    echo "Usage: sizeofdir <dir> OPTIONAL[dir2 dir3 ...]" >&2
-    return 2
-  fi
-
-#   local p
-#   for p in "$@"; do
-#     [[ -d "$p" ]] || { echo "Not a directory: $p" >&2; return 2; }
-#   done
-
-  du -hs -- "$@"
-}
-
-# Custom function for quick clone of GitHub repo.
-gitcl () {
-  if (( $# < 1 || $# > 2 )); then
-    echo "Usage: gitcl <repo> OPTIONAL[path]" >&2
-    return 2
-  fi
-
-  local repo="$1"
-  local dest="${2-}"
-  local url="git@github.com:AtlasICL/$repo"
-
-  if [[ -z "$dest" ]]; then
-    git clone -- "$url"
-  else
-    git clone -- "$url" "$dest"
-  fi
-}
-
-export PATH="$HOME/.local/bin:$PATH"

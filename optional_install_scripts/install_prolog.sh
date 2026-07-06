@@ -18,20 +18,31 @@ success() { printf "\n${SUCCESS_COLOR}[OK  ] %s${RESET}\n" "$*"; }
 warn() { printf "\n${ERROR_COLOR}[WARN] %s${RESET}\n" "$*"; }
 error() { printf "\n${ERROR_COLOR}[ERR ] %s${RESET}\n" "$*"; }
 
-if ! command -v apt-get >/dev/null 2>&1; then
-  error "This script is for Debian/Ubuntu (apt-based) systems."
-  exit 1
-fi
+OS="$(uname -s)"
 
-if ! sudo -v 2>/dev/null; then
-  error "This script requires sudo privileges."
-  exit 1
-fi
+if [ "$OS" = "Darwin" ]; then
+  if ! command -v brew >/dev/null 2>&1; then
+    error "Homebrew is required on macOS. Install it from https://brew.sh and re-run."
+    exit 1
+  fi
+  info "Installing SWI-Prolog via Homebrew..."
+  brew install swi-prolog > /dev/null
+else
+  if ! command -v apt-get >/dev/null 2>&1; then
+    error "This script supports macOS (Homebrew) and Debian/Ubuntu (apt) systems."
+    exit 1
+  fi
 
-sudo apt-get install -y software-properties-common > /dev/null
-sudo apt-add-repository -y ppa:swi-prolog/stable > /dev/null
-sudo apt-get update > /dev/null
-sudo apt-get install -y swi-prolog > /dev/null
+  if ! sudo -v 2>/dev/null; then
+    error "This script requires sudo privileges."
+    exit 1
+  fi
+
+  sudo apt-get install -y software-properties-common > /dev/null
+  sudo apt-add-repository -y ppa:swi-prolog/stable > /dev/null
+  sudo apt-get update > /dev/null
+  sudo apt-get install -y swi-prolog > /dev/null
+fi
 
 if ! command -v swipl >/dev/null 2>&1; then
   error "Something went wrong!"

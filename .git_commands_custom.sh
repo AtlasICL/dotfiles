@@ -3,6 +3,12 @@
 # Some custom functions for git.
 # Needs to be sourced in rc file.
 
+# Oh My Zsh's git plugin (and similar) define some of these names as aliases.
+# zsh refuses to define a function whose name is an existing alias, so remove
+# any conflicting aliases first. No-op in bash or if the alias is absent.
+# Note: `gb` is intentionally omitted so Oh My Zsh's `gb='git branch'` survives.
+unalias gbw rbm squash git_main_branch 2>/dev/null || true
+
 # Get main branch name (main or master)
 git_main_branch() {
     command git rev-parse --git-dir &>/dev/null || return 1
@@ -16,8 +22,8 @@ git_main_branch() {
     fi
 }
 
-# List branches and worktrees
-gb() {
+# List branches and worktrees (gb is left to Oh My Zsh's `git branch` alias)
+gbw() {
     echo "=== Branches ==="
     git branch -v
     echo ""
