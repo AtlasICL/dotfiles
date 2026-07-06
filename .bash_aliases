@@ -11,3 +11,6 @@ alias give-key='cat ${HOME}/.ssh/id_ed25519.pub'
 alias bat='batcat -P'
 
 alias python='python3'
+
+# tmux reload config
+alias tmux-load='tmux source-file ~/.tmux.conf'
