@@ -25,8 +25,11 @@ if [ "$OS" = "Darwin" ]; then
     error "Homebrew is required on macOS. Install it from https://brew.sh and re-run."
     exit 1
   fi
+  # Keep brew quiet (chatter goes to stderr); real errors still surface.
+  export HOMEBREW_NO_AUTO_UPDATE=1
+  export HOMEBREW_NO_ENV_HINTS=1
   info "Installing SWI-Prolog via Homebrew..."
-  brew install swi-prolog > /dev/null
+  brew install --quiet swi-prolog > /dev/null
 else
   if ! command -v apt-get >/dev/null 2>&1; then
     error "This script supports macOS (Homebrew) and Debian/Ubuntu (apt) systems."

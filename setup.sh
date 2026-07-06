@@ -89,7 +89,7 @@ pkg_install() {
       python3-pip)     return 0 ;; # pip ships with Homebrew's python3
       build-essential) return 0 ;; # provided by Xcode Command Line Tools
     esac
-    brew install "$brew_name" >/dev/null
+    brew install --quiet "$brew_name" >/dev/null
   else
     sudo apt-get install -y "$name" >/dev/null
   fi
@@ -111,6 +111,10 @@ if [ "$OS" = "Darwin" ]; then
     error "Homebrew is required on macOS. Install it from https://brew.sh and re-run."
     exit 1
   fi
+  # Keep brew as quiet as the apt commands: suppress auto-update chatter and
+  # env hints (both go to stderr). Real errors still surface on stderr.
+  export HOMEBREW_NO_AUTO_UPDATE=1
+  export HOMEBREW_NO_ENV_HINTS=1
 else
   if ! command -v apt-get >/dev/null 2>&1; then
     error "This script supports macOS (Homebrew) and Debian/Ubuntu (apt) systems."
@@ -156,9 +160,9 @@ update_progress
 
 info "Updating packages..."
 if [ "$OS" = "Darwin" ]; then
-  brew update > /dev/null
+  brew update --quiet > /dev/null
   update_progress
-  brew upgrade > /dev/null
+  brew upgrade --quiet > /dev/null
   update_progress
 else
   sudo apt-get update > /dev/null
