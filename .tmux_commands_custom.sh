@@ -20,7 +20,13 @@ tls() {
         echo "No tmux sessions."
         return
     fi
-    { printf "SESSION${tab}WINDOWS${tab}STATUS\n"; printf '%s\n' "$out"; } | column -t -s "$tab"
+    { printf "SESSION${tab}WINDOWS${tab}STATUS\n"; printf '%s\n' "$out"; } \
+        | column -t -s "$tab" \
+        | { IFS= read -r header
+            printf '%s\n' "$header"                  # header row
+            printf '%s\n' "$header" | tr '[:print:]' '-'  # dashed rule, full width
+            cat                                       # remaining session rows
+          }
 }
 
 # Kill specific session by name (using fzf)
