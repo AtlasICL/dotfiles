@@ -11,7 +11,7 @@ tnew() {
 
 # List sessions in aligned columns
 tls() {
-    local tab out
+    local tab out table header rule
     tab=$(printf '\t')
     # tmux does not interpret \t in -F, so pass a real tab via $tab and let
     # `column` align on it (spaces within fields are preserved).
@@ -20,13 +20,11 @@ tls() {
         echo "No tmux sessions."
         return
     fi
-    { printf "SESSION${tab}WINDOWS${tab}STATUS\n"; printf '%s\n' "$out"; } \
-        | column -t -s "$tab" \
-        | { IFS= read -r header
-            printf '%s\n' "$header"                  # header row
-            printf '%s\n' "$header" | tr '[:print:]' '-'  # dashed rule, full width
-            cat                                       # remaining session rows
-          }
+    table=$({ printf "SESSION${tab}WINDOWS${tab}STATUS\n"; printf '%s\n' "$out"; } | column -t -s "$tab")
+    header=${table%%$'\n'*}                        # first (header) line
+    rule=$(printf '%s' "$header" | tr '[:print:]' '-')  # dashed rule, full width
+    # header, top rule, session rows, bottom rule
+    printf '%s\n%s\n%s\n%s\n' "$header" "$rule" "${table#*$'\n'}" "$rule"
 }
 
 # Kill specific session by name (using fzf)
