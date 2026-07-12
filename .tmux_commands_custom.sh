@@ -40,6 +40,9 @@ tkillall(){
         || echo "No tmux server running."
 }
 
+# Reload tmux config
+alias treload='tmux source-file ~/.tmux.conf'
+
 # Attach to session by name (using fzf)
 tattach() {
     local session
