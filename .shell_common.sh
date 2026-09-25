@@ -22,6 +22,10 @@ if [ -z "$SSH_CONNECTION" ] && command -v fastfetch >/dev/null 2>&1; then
     fastfetch
 fi
 
+export HOMEBREW_AUTO_UPDATE_QUIET=1
+export HOMEBREW_NO_ENV_HINTS=1
+export HOMEBREW_NO_ANALYTICS=1
+
 # Custom function to navigate into a directory and open it in VS Code.
 op () {
   if [ -z "$1" ]; then
