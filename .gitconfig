@@ -33,9 +33,11 @@
 [rebase]
     autoStash = true
 
+[status]
+    # Show the number of stashed entries
+    showStash = true
+
 [alias]
-    st = status -s
-    uncommit = reset --soft HEAD~1
-    editcommit = commit --amend
+    st = "!f() { git status -s; n=$(git stash list --format=%gd | awk 'END { print NR }'); [ \"$n\" -eq 0 ] || printf '\\033[31mStash entries: %s\\033[0m\\n' \"$n\"; }; f"    editcommit = commit --amend
     track = "!f() { git branch --set-upstream-to=origin/$1; }; f"
     gamend = "!f() { now=$(date -R); git add -A && git commit --amend --no-edit --date=\"$now\"; }; f"
